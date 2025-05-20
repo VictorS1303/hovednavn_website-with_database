@@ -1,0 +1,56 @@
+---
+import TimelineCard from './TimelineCard.astro'
+import SectionHeader from './SectionHeader.astro'
+
+const {class: className, id: id} = Astro.props
+
+const timelineCardsData = [
+  {
+    timelineCardTitle: '2015 - Begyndelsen',
+    timelineCardDescriptionText:
+      'I 2015 dannedes vi første gang som en gruppe ved navn Fars Rum. Dette endte med at blive startskuddet til en række udgivelser de næste fem år frem.',
+  },
+  {
+    timelineCardTitle: '2020 - Pause',
+    timelineCardDescriptionText:
+      'Vi tog en pause for at trække stikket og rette fokus mod andre ting udenfor Fars Rum. Vi revurderede Fars Rum, men besluttede, at det skulle fortsætte.',
+  },
+  {
+    timelineCardTitle: '2023 - Version 2.0',
+    timelineCardDescriptionText:
+      'Vi kom tilbage som en gruppe på syv og udgav et par singler.',
+  },
+  {
+    timelineCardTitle: '2024 - Fars Rum stopper',
+    timelineCardDescriptionText:
+      'Fars Rum sætter punktum for, hvad der var dem, da bandmedlemmerne havde forskellige ønsker til livet.',
+  },
+  {
+    timelineCardTitle: '2025 - Hovednavn',
+    timelineCardDescriptionText:
+      'Vi opstår som Hovednavn - et navn, som vores trommeslager fandt på - med tre af de oprindelige medlemmer fra Fars Rum, en fra vores nye konstellation og en helt ny organist. Til forskel fra Fars Rum henvender vi os til et mere voksent publikum, da vores tekster er mere seriøse og reflekterende. Vi er blevet mere voksne, hvilket vi ønsker at vise.',
+  },
+  {
+    timelineCardTitle: '2025 - Første single',
+    timelineCardDescriptionText:
+      'Vi udgiver i foråret vores første single under navnet Hovednavn. Vi kalder singlen “Familien Danmark”.',
+  },
+]
+---
+
+<div class='flex flex-col justify-center items-center w-[80vw] overflow-hidden'>
+  <SectionHeader sectionHeaderText='Hvem er Hovednavn?' />
+  <div class='relative flex flex-col justify-between space-y-6'>
+    <div
+      class='absolute -z-2 w-2 h-full bg-[var(--timeline-card-bg-color)] shadow-md left-1/2 transform -translate-x-1/2'>
+    </div>
+    {
+      timelineCardsData.map((timelineCard, index) => (
+        <TimelineCard
+          timelineCardTitle={timelineCard.timelineCardTitle}
+          timelineCardDescriptionText={timelineCard.timelineCardDescriptionText}
+        />
+      ))
+    }
+  </div>
+</div>

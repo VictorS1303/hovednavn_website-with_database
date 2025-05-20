@@ -1,0 +1,10 @@
+---
+const {concertEvent, concertTarget, showEventBtnText} = Astro.props
+---
+
+<a
+  href={concertEvent}
+  target={concertTarget}
+  class='btn show-event-btn text-[var(--map-control-btns-text-color)] text-xl cursor-pointer transition-text duration-150 ease-in hover:text-[var(--secondary-text-color)]'
+  id='show_event_btn'>{showEventBtnText}</a
+>

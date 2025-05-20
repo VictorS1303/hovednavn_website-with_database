@@ -1,0 +1,44 @@
+---
+const {class: className, id: id} = Astro.props
+
+const trackData = [
+  {
+    trackTitle: 'Velkommen til Danmark',
+    trackSrc: '/velkommen-til-dk_cover.jpg',
+    audioSrc: 'velkommen-til-dk',
+    progress: 30,
+    startTime: '0:00',
+    endTime: '3:50',
+  },
+  {
+    trackTitle: 'Jorden er flad',
+    audioSrc: 'jorden-er-flad',
+    progress: 30,
+    startTime: '0:00',
+    endTime: '2:32',
+  },
+]
+---
+
+<div
+  class='container controls-container flex items-center justify-center h-[30px] w-full gap-6 -mt-2'
+  id='controls_container'>
+  <button
+    class='btn control-btn previous-song-btn text-2xl cursor-pointer'
+    id='previous_song_btn'
+    aria-label='previous song'>
+    <i class='fa-solid fa-backward'></i>
+  </button>
+  <button
+    class='btn control-btn play-pause-song-btn text-3xl cursor-pointer'
+    id='play_pause_song_btn'
+    aria-label='play pause song'>
+    <i class='fa-solid fa-play'></i>
+  </button>
+  <button
+    class='btn control-btn next-song-btn text-2xl cursor-pointer'
+    id='next_song_btn'
+    aria-label='next song'>
+    <i class='fas fa-forward'></i>
+  </button>
+</div>

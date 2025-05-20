@@ -1,0 +1,57 @@
+---
+import Layout from '../layouts/Layout.astro'
+import Section from '../components/Section.astro'
+import Overlay from '../components/Overlay.astro'
+import Hero from '../components/Hero.astro'
+import SocialIconsContainer from '../components/SocialIconsContainer.astro'
+import Navigation from '../components/Navigation.astro'
+import LandingPageFooter from '../components/LandingPageFooter.astro'
+
+const iconLinks = [
+  {
+    icon: 'fa-brands fa-facebook-f',
+    href: 'https://www.facebook.com/profile.php?id=61574049239842',
+    target: '_blank',
+    color: 'var(--primary-text-color)',
+    hoverColor: 'var(--secondary-text-color)',
+  },
+  {
+    icon: 'fa-brands fa-instagram',
+    href: 'https://www.instagram.com/hovednavn.dk/',
+    color: 'var(--primary-text-color)',
+    target: '_blank',
+  },
+  {
+    icon: 'fa-brands fa-spotify',
+    href: 'https://open.spotify.com/artist/3OwrJTLlWahORBut7aEXe8',
+    color: 'var(--primary-text-color)',
+    target: '_blank',
+  },
+]
+
+const navItems = [
+  {
+    href: '/about',
+    text: 'Om',
+  },
+  {
+    href: '/music',
+    text: 'Musik',
+  },
+  {
+    href: '/concerts',
+    text: 'Koncerter',
+  },
+]
+---
+
+<Layout title='Velkommen' navItems={navItems}>
+  <Section class={`h-screen relative`} id='music'>
+    <Hero
+      heroHeaderText='Hovednavn'
+      heroImageSrc='/images/landing_page/hero/hero_bg.jpg'
+      heroImageAlt='hero music image'
+      loading='lazy'
+    />
+  </Section>
+</Layout>

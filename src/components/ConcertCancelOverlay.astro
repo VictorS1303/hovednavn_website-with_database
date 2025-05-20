@@ -1,0 +1,25 @@
+---
+const {
+  class: className = '',
+  id: id,
+  concertCancelOverlayText,
+  concertCancelOverlayImage,
+} = Astro.props
+---
+
+{
+  concertCancelOverlayText && (
+    <div
+      class={`absolute inset-0 bg-[var(--concert-card-cancel-overlag-bg-color)] text-white text-3xl uppercase flex items-center justify-center font-bold ${className}`}
+      id={id}>
+      <h3 class='-rotate-[45deg] text-4xl whitespace-nowrap z-[10000]'>
+        {concertCancelOverlayText}
+      </h3>
+      <img
+        src={concertCancelOverlayImage}
+        class='absolute opacity-40 object-cover h-[175px] w-[175px]'
+        alt='concert card'
+      />
+    </div>
+  )
+}

@@ -1,0 +1,38 @@
+---
+import Logo from './Logo.astro'
+import SocialIconsContainer from './SocialIconsContainer.astro'
+
+const {class: className, id: id} = Astro.props
+
+const iconLinks = [
+  {
+    icon: "fa-brands fa-facebook-f",
+    href: "https://www.facebook.com/profile.php?id=61574049239842",
+    target: "_blank",
+    color: "var(--footer-text-color)",
+  },
+  {
+    icon: "fa-brands fa-instagram",
+    href: "https://www.instagram.com/hovednavn.dk/",
+    color: "var(--primary-text-color)",
+    target: "_blank",
+  },
+  {
+    icon: "fa-brands fa-spotify",
+    href: "https://open.spotify.com/artist/3OwrJTLlWahORBut7aEXe8",
+    color: "var(--primary-text-color)",
+    target: "_blank",
+  },
+];
+---
+
+<footer class={`{className} bg-[var(--secondary-text-color)] flex justify-between px-6 items-center h-[80px] border-t-2 border-[var(--footer-text-color)]`} id={id}>
+  <h3 class="text-xl uppercase font-bold tracking-wide">Hovednavn</h3>
+  <Logo />
+
+  <SocialIconsContainer
+      list={iconLinks}
+      class="flex gap-4"
+      color={iconLinks[0].color}
+  />
+</footer>

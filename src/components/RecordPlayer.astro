@@ -1,0 +1,282 @@
+---
+// RecordPlayer.astro
+
+import {trackData} from '../js/trackData.js'
+console.log(trackData)
+const {class: className, id: id} = Astro.props
+---
+
+<div
+  class={`${className} relative flex flex-col items-center py-8 rounded-2xl mb-12 bg-[var(--record-player-bg-color)] w-[300px] h-[fit] overflow-hidden md:w-[800px] md:flex-row md:justify-between px-20`}>
+  <div class='relative flex flex-col items-center justify-start gap-8'>
+    <!-- Vinyl -->
+    <div
+      class='container vinyl-container relative h-[150px] w-[150px] bg-black rounded-full'
+      id='vinyl_container'>
+      <div
+        class='absolute top-[50%] left-[50%] -translate-[50%] rounded-full vinyl-hole h-[15px] w-[15px] bg-black z-[2000]'
+        id='vinyl_hole'>
+      </div>
+      <img
+        class='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[97%] w-[97%] p-2 object-cover rounded-full z-[500]'
+        id='cover_image'
+        alt='vinyl image'
+        height='100%'
+        width='100%'
+        loading='lazy'
+      />
+    </div>
+    <!-- src='/recordings/covers/doev.webp' -->
+
+    <!-- Track Data Container -->
+    <div
+      class='container track-data-container-and-controls-container'
+      id='track_data_and_controls_container'>
+      <div
+        class='track-data-container w-[200px] whitespace-nowrap'
+        id='track_data_container'>
+        <h3 class='track-title text-xl text-center' id='track_title'>
+        </h3>
+
+        <div class='overflow-hidden w-full bg-white rounded-full h-2.5 mt-4'>
+          <div
+            class='bg-[var(--progress-bar-inner-bg-color)] h-2.5 rounded-full'
+            id='progress_bar'>
+          </div>
+        </div>
+
+        <div
+          class='container length-info-container flex justify-between mt-2'
+          id='length_info_container'>
+          <h4 class='start-time track-duration-color' id='start_time'>0:00</h4>
+          <h4 class='full-time track-duration-color' id='end_time'>3:56</h4>
+        </div>
+      </div>
+    </div>
+
+    <!-- Controls Container -->
+    <div
+      class='container controls-container flex items-center justify-center h-[30px] w-full gap-6 -mt-2'
+      id='controls_container'>
+      <button
+        class='btn control-btn previous-song-btn text-2xl cursor-pointer'
+        id='previous_song_btn'
+        aria-label='previous song'>
+        <i class='fa-solid fa-backward'></i>
+      </button>
+      <button
+        class='btn control-btn play-pause-song-btn text-3xl cursor-pointer'
+        id='play_pause_song_btn'
+        aria-label='play and pause song'>
+        <i class='fa-solid fa-play'></i>
+      </button>
+      <button
+        class='btn control-btn next-song-btn text-2xl cursor-pointer'
+        id='next_song_btn'
+        aria-label='next song'>
+        <i class='fas fa-forward'></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Track List Container -->
+  <button
+    class='absolute top-4 text-white right-4 btn toggle-mobile-track-list-btn cursor-pointer rotate-[0] text-xl transition-rotate duration-400 ease-in-out md:none'
+    id='toggle_mobile_track_list_btn'
+    aria-label='toggle playlist'>
+    <i class='fas fa-list md:none'></i>
+  </button>
+  <div
+    class='track-list-container absolute mt-7 z-[1000] backdrop-blur-2xl w-full h-[275px] rounded-b-2xl top-[500px] border-t-2 border-t-white transition-top duration-400 ease-in-out md:-top-[100px] md:w-[50%] md:right-0 md:h-[500px] md:flex md:flex-col md:justify-center md:border-t-none md:border-l-2 border-l-white'
+    id='track_list_container'>
+    <h2 class='flex justify-between px-6 py-4'>
+      <span class='text-white md:text-xl'>Track:</span>
+      <span class='text-white md:text-xl'>Længde:</span>
+    </h2>
+
+    <ul
+      class='paragraph-font track-list flex flex-col px-6 h-[150px] overflow-y-scroll md:h-[200px]'>
+      {
+        trackData.map((trackInfo) => (
+          <li class='py-2 m-0 flex justify-between items-center text-md text-white hover:text-[var(--track-list-text-hover-color)] cursor-pointer border-b border-white last:border-b-0 transition duration-150 ease-in md:py-4'>
+            <span class='track-name'>{trackInfo.trackTitle}</span>
+            <span class='track-duration'>{trackInfo.endTime}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</div>
+
+<script>
+  import {trackData} from '../js/trackData.js'
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const trackCoverImage = document.querySelector('#cover_image')
+    const trackDataContainer = document.querySelector('#track_data_container')
+    const trackTitle = document.querySelector('#track_title')
+    const startTime = document.querySelector('#start_time')
+    const endTime = document.querySelector('#end_time')
+    const controlBtnsContainer = document.querySelector('.controls-container')
+    const playPauseSongBtn = document.querySelector('.play-pause-song-btn i')
+    const progressBar = document.querySelector('#progress_bar')
+    const trackListContainer = document.querySelector('.track-list-container')
+    const mobileTrackListToggleBtn = document.querySelector(
+      '#toggle_mobile_track_list_btn',
+    )
+
+    const trackListItems = document.querySelectorAll('.track-list li')
+
+    const audio = new Audio()
+
+    controlBtnsContainer?.addEventListener('click', (e) => controlAudio(e))
+    audio.addEventListener('timeupdate', updateProgressBar)
+    mobileTrackListToggleBtn?.addEventListener('click', toggleMobileTrackList)
+
+    // Initially setting the width of the progress bar to 0
+    progressBar.style.width = '0%'
+
+    let songIndex = 0
+    let timeUpdateInterval
+
+    loadSong(trackData[songIndex], false)
+
+    function loadSong(song, shouldHighlight = true) {
+      trackTitle.textContent = song.trackTitle
+      trackCoverImage.src = `/recordings/covers/${song.audioCover}.webp`
+      audio.src = `/recordings/audio/${song.audioTrack}.mp3`
+      startTime.textContent = song.startTime
+      endTime.textContent = song.endTime
+
+      updateTimerInterval()
+
+      if (shouldHighlight) {
+        highlightCurrentSong()
+      }
+    }
+
+    function updateTimerInterval() {
+      if (timeUpdateInterval) {
+        clearInterval(timeUpdateInterval) // Clear any previous intervals
+      }
+      timeUpdateInterval = setInterval(updateStartTime, 1000) // Update every second
+    }
+
+    function controlAudio(e) {
+      if (e.target.closest('.previous-song-btn')) {
+        playPreviousSong()
+      } else if (e.target.closest('.play-pause-song-btn')) {
+        toggleAudioPlayState()
+        updateStartTime()
+      } else if (e.target.closest('.next-song-btn')) {
+        playNextSong()
+      }
+    }
+
+    function toggleAudioPlayState() {
+      audio.paused
+        ? (audio.play(), trackCoverImage?.classList.add('spin'))
+        : (audio.pause(), trackCoverImage?.classList.remove('spin'))
+      updatePlayPauseIconState()
+    }
+
+    function updatePlayPauseIconState() {
+      audio.paused
+        ? (playPauseSongBtn?.classList.remove('fa-pause'),
+          playPauseSongBtn?.classList.add('fa-play'))
+        : (playPauseSongBtn?.classList.remove('fa-play'),
+          playPauseSongBtn?.classList.add('fa-pause'))
+    }
+
+    function playPreviousSong() {
+      songIndex--
+      if (songIndex < 0) {
+        songIndex = trackData.length - 1
+      }
+      loadSong(trackData[songIndex])
+      audio.play()
+      trackCoverImage?.classList.add('spin')
+      updatePlayPauseIconState()
+    }
+
+    function playNextSong() {
+      songIndex++
+      if (songIndex >= trackData.length) {
+        songIndex = 0
+      }
+      loadSong(trackData[songIndex])
+      audio.play()
+      trackCoverImage?.classList.add('spin')
+      updatePlayPauseIconState()
+    }
+
+    function updateStartTime() {
+      const minutes = Math.floor(audio.currentTime / 60)
+      const seconds = Math.floor(audio.currentTime % 60)
+      startTime.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`
+    }
+
+    function updateProgressBar(e: any) {
+      const target = e.target
+
+      if (target) {
+        const {duration, currentTime} = target
+        const progressPercentage = (currentTime / duration) * 100
+        progressBar.style.width = `${progressPercentage}%`
+      }
+    }
+
+    function toggleMobileTrackList() {
+      toggleTrackList()
+      rotateMobileTrackListIcon()
+    }
+
+    function toggleTrackList() {
+      trackListContainer.classList.contains('top-[500px]')
+        ? (trackListContainer.classList.remove('top-[500px]'),
+          trackListContainer.classList.add('top-[135px]'))
+        : (trackListContainer.classList.remove('top-[135px]'),
+          trackListContainer.classList.add('top-[500px]'))
+    }
+
+    function rotateMobileTrackListIcon() {
+      mobileTrackListToggleBtn.classList.contains('rotate-[0]')
+        ? (mobileTrackListToggleBtn.classList.remove('rotate-[0]'),
+          mobileTrackListToggleBtn.classList.add('-rotate-[180deg]'))
+        : (mobileTrackListToggleBtn.classList.remove('-rotate-[180deg]'),
+          mobileTrackListToggleBtn.classList.add('rotate-[0]'))
+    }
+
+    function highlightCurrentSong() {
+      trackListItems.forEach((trackListItem) => {
+        trackListItem.classList.remove('current-song')
+      })
+
+      const currentTrackItem = trackListItems[songIndex]
+
+      if (currentTrackItem) {
+        currentTrackItem.classList.add('current-song')
+      }
+    }
+
+    function playSongFromPlayList() {
+      const trackListItems = document.querySelectorAll('.track-list li')
+
+      trackListItems.forEach((item, index) => {
+        item.addEventListener('click', () => {
+          if (index === songIndex && !audio.paused) {
+            return
+          }
+          songIndex = index
+          loadSong(trackData[songIndex])
+          audio.play()
+          rotateMobileTrackListIcon()
+          updatePlayPauseIconState()
+          trackCoverImage?.classList.add('spin')
+          toggleTrackList()
+        })
+      })
+    }
+    playSongFromPlayList()
+  })
+</script>

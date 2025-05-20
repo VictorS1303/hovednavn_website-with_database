@@ -1,0 +1,57 @@
+---
+import Layout from '../layouts/Layout.astro'
+import ScrollToTopBtn from '../components/ScrollToTopBtn.astro'
+import Main from '../components/Main.astro'
+import TimelineContainer from '../components/TimelineContainer.astro'
+import Hero from '../components/Hero.astro'
+
+import landingPageBgImage from '../../src/images/landing_page/hero/hero_bg.jpg'
+
+import Section from '../components/Section.astro'
+import Overlay from '../components/Overlay.astro'
+import SectionHeader from '../components/SectionHeader.astro'
+import SocialIconsContainer from '../components/SocialIconsContainer.astro'
+import PageIntroText from '../components/PageIntroText.astro'
+import ArtistCardsContainer from '../components/ArtistCardsContainer.astro'
+
+const navItems = [
+  {
+    href: '/about',
+    text: 'Om',
+  },
+  {
+    href: '/music',
+    text: 'Musik',
+  },
+  {
+    href: '/concerts',
+    text: 'Koncerter',
+  },
+]
+---
+
+<Layout title='Om' navItems={navItems}>
+  <Section
+    class='h-screen relative flex items-center justify-center'
+    id='concerts'>
+    <Hero
+      heroHeaderText='Om'
+      heroImageSrc='/images/about/hero/about_hero_bg.webp'
+      heroImageAlt='hero concert image'
+      loading='lazy'
+    />
+  </Section>
+  <Main>
+    <SectionHeader class='-mb-12' sectionHeaderText='Velkommen til Hovednavn' />
+
+    <PageIntroText
+      pageIntroText='Hej og velkommen til! Vi hedder Hovednavn og består af fem gutter, der holder af at spille musik sammen. Her på siden har du mulighed for at lære os bedre at kende - alt fra, hvordan Hovednavn blev til samt om os hver især personligt.'
+    />
+
+    <TimelineContainer />
+
+    <ArtistCardsContainer showOverlay={true} />
+  </Main>
+</Layout>
+
+<ScrollToTopBtn />

@@ -1,0 +1,29 @@
+---
+const { list = [], class: className = "", id = "", color = "", hoverColor = ''} = Astro.props;
+---
+
+<article class={`${className}`} id={id} style={{color, "--hover-color": hoverColor || "inherit"}}>
+    <ul class="flex gap-8">
+        {
+            list.map(({ icon, href, target, color}) => (
+                <li>
+                    <a
+                        href={href}
+                        target={target}
+                        rel="noopener noreferrer"
+                        class="text-2xl transition-text duration-150 ease-in"
+                    >
+                        <i class=`${icon} transition-text duration-150 ease-in` color={color} hoverColor={hoverColor}/>
+                    </a>
+                </li>
+            ))
+        }
+    </ul>
+</article>
+
+<style>
+  a:hover
+  {
+    color: var(--hover-color);
+  }
+</style>

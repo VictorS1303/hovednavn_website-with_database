@@ -1,0 +1,14 @@
+{
+    "editor.guides.bracketPairsHorizontal": true,
+    "editor.guides.bracketPairs": "active",
+    "prettier.bracketSpacing": false,
+    "editor.matchBrackets": "never",
+    "prettier.bracketSameLine": true,
+    "typescript.inlayHints.functionLikeReturnTypes.enabled": false,
+    "javascript.format.placeOpenBraceOnNewLineForFunctions": true,
+    "prettier.jsxSingleQuote": true,
+    "prettier.singleQuote": true,
+    "typescript.format.placeOpenBraceOnNewLineForFunctions": true,
+    "editor.fontWeight": "normal",
+    "editor.formatOnSave": true,
+}

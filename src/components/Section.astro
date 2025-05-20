@@ -1,0 +1,7 @@
+---
+const {class: className, id: id} = Astro.props
+---
+
+<section class={`${className} h-fit relative`} id={id}>
+  <slot />
+</section>

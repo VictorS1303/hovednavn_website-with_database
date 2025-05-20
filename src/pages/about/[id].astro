@@ -1,0 +1,29 @@
+---
+import SingleViewLayout from '../../layouts/SingleViewLayout.astro'
+import {singleViewData} from '../../js/single_view_data'
+
+const {id} = Astro.params
+
+export async function getStaticPaths() {
+  const paths = singleViewData.map((item) => ({
+    params: {id: item.id.toString()}, // Ensure `id` is a string
+  }))
+  return {paths}
+}
+
+// Ensure the ID is matched and the correct data is retrieved
+const data = singleViewData.find((item) => item.id.toString() === id)
+
+if (!data) {
+  throw new Error(`Data for ID ${id} not found.`)
+}
+---
+
+<SingleViewLayout
+  title={data.title}
+  name={data.name}
+  image={data.image}
+  age=`${data.age} år`
+  about={data.about}
+  :view-transition
+/>

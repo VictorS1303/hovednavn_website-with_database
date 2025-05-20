@@ -1,0 +1,143 @@
+---
+import Logo from '../components/Logo.astro'
+const {class: className, id: id, navItems = []} = Astro.props
+const activePage = new URL(Astro.request.url).pathname
+const isHome = activePage === '/'
+const isSingleView = activePage.startsWith('/about/')
+---
+
+{/* Mobile menu toggle button should be hidden only in single view */}
+{
+  !isSingleView && (
+    <button
+      class='btn mobile-menu-toggle-btn text-white z-[5000] fixed top-6 right-6 text-2xl cursor-pointer transition-right duration-400 ease-in md:hidden'
+      id='mobile_menu_toggle_btn'
+      aria-label='toggle menu'>
+      <i class='fas fa-bars' />
+    </button>
+  )
+}
+
+{
+  isSingleView && (
+    <nav
+      class={`${className} h-[70px] backdrop-blur-2xl relative top-0 z-[1000] w-full px-6 transition-right duration-400 ease-in md:fixed md:backdrop-blur-none md:left-0 md:top-0 md:flex md:justify-center md:h-20 md:w-screen md:px-12 md:items-center`}
+      id='main_nav_single'>
+      <div class='absolute top-4 left-4 md:static md:translate-x-0 md:bottom-auto md:left-auto'>
+        {isSingleView ? (
+          <a
+            href='/about'
+            class='text-[var(--single-view-back-btn-text-color)] text-2xl static top-0 z-[1000]'>
+            <i class='fas fa-arrow-left text-2xl cursor-pointer' />
+          </a>
+        ) : isHome ? (
+          <Logo src='/images/logos/hovednavn_logo-svg.svg' />
+        ) : (
+          <a href='/'>
+            <Logo src='/images/logos/hovednavn_logo-svg.svg' />
+          </a>
+        )}
+      </div>
+
+      <ul class='paragraph-font flex flex-col h-full items-center justify-center gap-8 uppercase text-xl text-white shadow-none md:flex-row md:static md:ml-auto md:gap-8'>
+        {navItems.map((navItem: any) => (
+          <li class='text-2xl font-bold'>
+            <a
+              href={navItem.href}
+              class={`${
+                navItem.href === activePage
+                  ? 'text-[var(--secondary-text-color)] pointer-events-none'
+                  : 'hover:text-[var(--secondary-text-color)] transition-text ease-in duration-150'
+              }`}>
+              {navItem.text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
+}
+
+{/* Default main nav, used outside single view */}
+{
+  !isSingleView && (
+    <nav
+      class={`${className} backdrop-blur-3xl fixed top-0 z-[1000] pt-12 h-full w-[250px] -right-[250px] px-6 text-center z-[10000] transition-right duration-400 ease-in md:fixed md:backdrop-blur-none md:left-0 md:top-0 md:flex md:justify-center md:h-20 md:w-screen md:px-12 md:items-center`}
+      id='main_nav'>
+      <div class='absolute bottom-8 left-1/2 -translate-x-1/2 md:static md:translate-x-0 md:bottom-auto md:left-auto'>
+        {isHome ? (
+          <Logo src='/images/logos/hovednavn_logo-svg.svg' />
+        ) : (
+          <a href='/'>
+            <Logo src='/images/logos/hovednavn_logo-svg.svg' />
+          </a>
+        )}
+      </div>
+
+      <ul class='primary-font flex flex-col h-full items-center justify-center gap-8 uppercase text-xl text-white shadow-none md:flex-row md:static md:ml-auto md:gap-8'>
+        {navItems.map((navItem: any) => (
+          <li class='text-2xl font-bold'>
+            <a
+              href={navItem.href}
+              class={`${
+                navItem.href === activePage
+                  ? 'text-[var(--secondary-text-color)] pointer-events-none'
+                  : 'hover:text-[var(--secondary-text-color)] transition-text ease-in duration-150'
+              }`}>
+              {navItem.text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
+}
+
+<script>
+  import {gsap} from 'gsap'
+
+  const mobileMenuToggleBtn = document.querySelector('#mobile_menu_toggle_btn')
+  const mainNav = document.querySelector('#main_nav')
+
+  mobileMenuToggleBtn?.addEventListener('click', toggleMobileMenu)
+
+  function toggleMobileMenu() {
+    mobileMenuToggleBtn?.classList.toggle('right-[270px]')
+    mainNav?.classList.toggle('right-0')
+    updateMobileMenuButtonIcon()
+  }
+
+  function updateMobileMenuButtonIcon() {
+    const icon = mobileMenuToggleBtn?.querySelector('i')
+
+    if (icon?.classList.contains('fa-bars')) {
+      icon.classList.remove('fa-bars')
+      icon.classList.add('fa-times')
+    } else {
+      icon?.classList.add('fa-bars')
+      icon?.classList.remove('fa-times')
+    }
+  }
+
+  // GSAP
+  gsap.from('nav .logo', {
+    y: -200,
+    duration: 1,
+  })
+
+  gsap.from('nav ul li', {
+    y: -200,
+    duration: 1,
+    stagger: 0.2,
+    delay: 0.5,
+    ease: 'power2.out',
+  })
+
+  gsap.from('.fa-bars', {
+    x: 200,
+    duration: 1,
+    stagger: 0.2,
+    delay: 0.5,
+    ease: 'power2.out',
+  })
+</script>

@@ -1,0 +1,29 @@
+{
+  "name": "hovednavn_website",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/netlify": "^6.3.3",
+    "@tailwindcss/vite": "^4.1.4",
+    "astro": "^5.7.10",
+    "gsap": "^3.13.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.3",
+    "prettier": "^3.5.3",
+    "prettier-plugin-astro": "^0.14.1",
+    "tailwindcss": "^4.1.4"
+  },
+  "description": "```sh npm create astro@latest -- --template basics ```",
+  "main": ".eslintrc.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

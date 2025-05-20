@@ -1,0 +1,40 @@
+---
+const {name, age, about, image, backArrow} = Astro.props
+import '../styles/global.css'
+import Layout from '../layouts/Layout.astro'
+import Section from '../components/Section.astro'
+import Navigation from '../components/Navigation.astro'
+import SectionHeader from '../components/SectionHeader.astro'
+---
+
+<Layout>
+  <Section
+    class='bg-[var(--body-bg-color)] text-red-400 h-full w-full overflow-hidden'>
+    <div
+      class='single-view-container my-12 flex flex-col gap-8 px-8 md:flex-row md:justify-center md:items-center md:gap-12 md:h-screen'>
+      <img
+        src={image}
+        alt="{name}'s image"
+        class='w-full h-[300px] object-cover md:h-[500px] md:w-[500px] md:object-fit'
+      />
+      <div
+        class='paragraph-font flex flex-col gap-6 h-full md:w-1/2 md:justify-center md:overflow-scroll md:h-fit'>
+        <div>
+          <h2 class='text-red-800 text-3xl mb-2 md:text-4xl'>Navn</h2>
+          <h3 class='text-black text-xl md:text-2xl md:leading-8'>{name}</h3>
+        </div>
+        <div>
+          <h2 class='text-red-800 text-3xl mb-2 md:text-4xl'>Alder</h2>
+          <h3 class='text-black text-xl md:text-2xl md:leading-8'>{age}</h3>
+        </div>
+        <div>
+          <h2 class='text-red-800 text-3xl mb-2 md:text-4xl'>Om</h2>
+          <p class='text-black text-xl leading-6 md:text-2xl md:leading-8'>
+            {about}
+          </p>
+        </div>
+      </div>
+      <slot />
+    </div>
+  </Section>
+</Layout>

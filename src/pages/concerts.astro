@@ -1,0 +1,53 @@
+---
+import Layout from '../layouts/Layout.astro'
+import ScrollToTopBtn from '../components/ScrollToTopBtn.astro'
+import Hero from '../components/Hero.astro'
+import Main from '../components/Main.astro'
+import SectionHeader from '../components/SectionHeader.astro'
+
+import ConcertCardsContainer from '../components/ConcertCardsContainer.astro'
+
+import Section from '../components/Section.astro'
+import Overlay from '../components/Overlay.astro'
+import ConcertRouteMapModal from '../components/ConcertRouteMapModal.astro'
+
+import PageIntroText from '../components/PageIntroText.astro'
+
+const navItems = [
+  {
+    href: '/about',
+    text: 'Om',
+  },
+  {
+    href: '/music',
+    text: 'Musik',
+  },
+  {
+    href: '/concerts',
+    text: 'Koncerter',
+  },
+]
+---
+
+<Layout title='Koncerter' navItems={navItems}>
+  <Section
+    class='h-screen relative flex items-center justify-center'
+    id='concerts'>
+    <Hero
+      heroHeaderText='Koncerter'
+      heroImageSrc='/images/concert/hero/hero_bg.webp'
+      heroImageAlt='hero concert image'
+      loading='lazy'
+    />
+    <ConcertRouteMapModal />
+  </Section>
+  <Main class='relative'>
+    <SectionHeader class='-mb-12' sectionHeaderText='Kom ud at feste med os' />
+    <PageIntroText
+      pageIntroText='Vi tager naturligvis ud og spiller for jer allesammen - unge som gamle! Så find et sted nær jer, og så ses vi til en svingom eller to; for hvis der er en, vi helst vil optræde for, er det dig!'
+    />
+    <ConcertCardsContainer />
+  </Main>
+
+  <ScrollToTopBtn />
+</Layout>

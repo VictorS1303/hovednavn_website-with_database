@@ -1,0 +1,56 @@
+---
+const {
+  title,
+  navItems = [],
+  pageIntroText,
+  heroHeaderText,
+  heroImageSrc,
+  heroImageAlt,
+} = Astro.props
+
+import Main from '../components/Main.astro'
+import Navigation from '../components/Navigation.astro'
+import PageIntroText from '../components/PageIntroText.astro'
+import LandingPageFooter from '../components/LandingPageFooter.astro'
+import RecordPlayer from '../components/RecordPlayer.astro'
+import MainFooter from '../components/MainFooter.astro'
+import '../styles/global.css'
+
+const activePage = new URL(Astro.request.url).pathname
+const isHome = activePage === '/'
+const isSingleView = activePage.startsWith('/about/')
+---
+
+<!doctype html>
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width' />
+    <link rel='icon' type='image/ico+xml' href='/favicon.ico' />
+    <meta name='generator' content={Astro.generator} />
+    <script
+      src='https://kit.fontawesome.com/2a447b40ae.js'
+      crossorigin='anonymous'
+      async></script>
+    <title>{title}</title>
+  </head>
+  <body
+    class='bg-[var(--body-bg-color)] font-[var(--font-family, sans-serif)] overflow-hidden'>
+    <!-- Navigation -->
+    <Navigation navItems={navItems} isSingleView={isSingleView} />
+
+    <!-- Flexible Layout -->
+    <slot />
+
+    <!-- Footer -->
+    {
+      !isHome && !isSingleView ? (
+        <MainFooter />
+      ) : !isSingleView ? (
+        <LandingPageFooter />
+      ) : (
+        ''
+      )
+    }
+  </body>
+</html>

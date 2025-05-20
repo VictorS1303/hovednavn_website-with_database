@@ -1,0 +1,15 @@
+---
+const {
+  src = '/images/logos/hovednavn_logo-svg.svg',
+  alt = 'Logo',
+  class: className = '',
+} = Astro.props
+---
+
+<img
+  src={src}
+  alt={alt}
+  height='100%'
+  width='100%'
+  class={`logo h-14 md:h-16 w-auto ${className}`}
+/>

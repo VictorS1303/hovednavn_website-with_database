@@ -1,0 +1,67 @@
+---
+const {
+  class: className,
+  id: id,
+  timelineCardTitle,
+  timelineCardDescriptionText,
+} = Astro.props
+---
+
+<details
+  class='timeline-card overflow-hidden bg-[var(--timeline-card-bg-color)] paragraph-font w-[275px] md:w-[500px] px-6 py-4 text-md shadow-md rounded-lg'>
+  <summary
+    class='timeline-card-header flex items-center justify-between gap-4 cursor-pointer text-xl text-white font-bold'>
+    {timelineCardTitle}
+    <i class='fas fa-chevron-down peer-open:rotate-180'></i>
+  </summary>
+
+  <p
+    class='timeline-card-description-text text-base text-wrap md:text-lg lg:text-xl leading-snug tracking-wide mt-6 text-white border-t-2 border-white pt-4 peer-hidden'>
+    {timelineCardDescriptionText}
+  </p>
+</details>
+
+<!-- Custom CSS to manage transitions and maintain width consistency -->
+<style>
+  /* When the details are open, the paragraph becomes visible */
+  details[open] p {
+    display: block;
+    max-height: 500px;
+    opacity: 1;
+    transition:
+      max-height 0.3s ease,
+      opacity 0.3s ease;
+  }
+
+  details[open] i {
+    transform: rotate(-180deg);
+  }
+
+  /* Initial state of the paragraph (hidden) */
+</style>
+
+<script>
+  import {gsap} from 'gsap'
+  import ScrollTrigger from 'gsap/ScrollTrigger'
+
+  gsap.registerPlugin(ScrollTrigger)
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Select all details elements
+    const detailsElements = document.querySelectorAll('details')
+
+    // Add event listeners to each details element
+    detailsElements.forEach((details) => {
+      details.addEventListener('toggle', () => {
+        // If the current details element is open, close all others
+        if (details.open) {
+          detailsElements.forEach((detailElement) => {
+            if (detailElement !== details && detailElement.open) {
+              detailElement.open = false
+            }
+          })
+        }
+      })
+    })
+  })
+</script>

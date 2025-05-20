@@ -1,0 +1,58 @@
+---
+import Layout from '../layouts/Layout.astro'
+import ScrollToTopBtn from '../components/ScrollToTopBtn.astro'
+import RecordPlayer from '../components/RecordPlayer.astro'
+import SectionHeader from '../components/SectionHeader.astro'
+import Main from '../components/Main.astro'
+import {Image} from '@astrojs/image/components'
+import landingPageBgImage from '../../src/images/landing_page/hero/hero_bg.jpg'
+
+import Section from '../components/Section.astro'
+import Hero from '../components/Hero.astro'
+import Overlay from '../components/Overlay.astro'
+import SocialIconsContainer from '../components/SocialIconsContainer.astro'
+import Navigation from '../components/Navigation.astro'
+import MainFooter from '../components/MainFooter.astro'
+import PageIntroText from '../components/PageIntroText.astro'
+
+const navItems = [
+  {
+    href: '/about',
+    text: 'Om',
+  },
+  {
+    href: '/music',
+    text: 'Musik',
+  },
+  {
+    href: '/concerts',
+    text: 'Koncerter',
+  },
+]
+---
+
+<Layout title='Musik' navItems={navItems}>
+  <div class='flex flex-col justify-start'>
+    <Section class={`h-screen relative`} id='music'>
+      <Hero
+        heroHeaderText='Musik'
+        heroImageSrc='/images/concert/hero/hero_bg.webp'
+        heroImageAlt='hero music image'
+        loading='lazy'
+      />
+    </Section>
+    <Main>
+      <SectionHeader
+        class='-mb-12'
+        sectionHeaderText='Hvordan lyder Hovednavn?'
+      />
+      <PageIntroText
+        pageIntroText='Velkommen til vores musikalske univers. Her kan du få en forsmag på, hvad vi har at byde på - om det er lette melodier eller mere eftertænksomme tekster, har vi helt sikkert noget for dig! Så giv det et lyt, og så ses vi forhåbentlig til en koncert eller to.'
+      />
+
+      <RecordPlayer />
+    </Main>
+  </div>
+</Layout>
+
+<ScrollToTopBtn />

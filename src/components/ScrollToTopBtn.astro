@@ -1,0 +1,33 @@
+---
+const {class: className, id: id} = Astro.props
+---
+
+<button
+  class={`${className} scroll-to-top-btn fixed bottom-14 -right-12 bg-[var(--scroll-to-top-btn-bg-color)] h-12 w-12 rounded-full border-2 border-[var(--scroll-to-top-btn-border-color)] cursor-pointer shadow-md hover:bg-[var(--scroll-to-top-btn-hover-bg-color)] z-[3000] active:scale-95 transition-bg duration-150 ease-in transition-right group`}
+  id={id}
+  aria-label='scroll to top'>
+  <i
+    class='fas fa-arrow-up text-[var(--scroll-to-top-btn-border-color)] group-hover:text-[var(--scroll-to-top-btn-hover-color)] transition-color duration-150 ease-in'
+  ></i>
+</button>
+
+<script>
+  const scrollToTopBtn = document.querySelector('.scroll-to-top-btn')
+
+  window.addEventListener('scroll', toggleScrollToTopBtn)
+  scrollToTopBtn?.addEventListener('click', scrollToTop)
+
+  function toggleScrollToTopBtn() {
+    const scrollYPos = Math.floor(window.scrollY)
+
+    scrollYPos > 300
+      ? (scrollToTopBtn?.classList.remove('-right-12'),
+        scrollToTopBtn?.classList.add('right-6'))
+      : (scrollToTopBtn?.classList.add('-right-12'),
+        scrollToTopBtn?.classList.remove('right-6'))
+  }
+
+  function scrollToTop() {
+    window.scrollTo({top: 0, left: 0, behavior: 'smooth'})
+  }
+</script>

@@ -1,0 +1,29 @@
+---
+const {
+  class: className = '',
+  id: id,
+  isConcertCancelled = false,
+  isArtistCard,
+  concertCancelOverlayText,
+} = Astro.props
+---
+
+{
+  isConcertCancelled ? (
+    <div
+      class={`absolute inset-0 bg-red h-full w-full text-3xl flex items-center justify-center text-white font-bold ${className}`}
+      id={id}>
+      {concertCancelOverlayText}
+    </div>
+  ) : isArtistCard ? (
+    <div
+      class={`absolute top-0 left-0 w-full h-full bg-black opacity-50 pointer-events-none ${className}`}
+      id={id}
+    />
+  ) : (
+    <div
+      class={`absolute inset-0 bg-black/50 pointer-events-none ${className}`}
+      id={id}
+    />
+  )
+}

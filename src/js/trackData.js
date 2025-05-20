@@ -1,0 +1,42 @@
+export const trackData = [
+    {
+      trackTitle: 'Velkommen til Danmark',
+      audioCover: 'velkommen-til-dk',
+      audioTrack: 'velkommen-til-dk',
+      progress: 30,
+      startTime: '0:00',
+      endTime: '3:50',
+    },
+    {
+      trackTitle: 'Jorden er flad',
+      audioCover: 'jorden-er-flad',
+      audioTrack: 'jorden-er-flad',
+      progress: 30,
+      startTime: '0:00',
+      endTime: '2:32',
+    },
+    {
+      trackTitle: 'Døv',
+      audioCover: 'doev',
+      audioTrack: 'doev',
+      progress: 30,
+      startTime: '0:00',
+      endTime: '4:14',
+    },
+    {
+      trackTitle: "Latin (Du kan ik' se det)",
+      audioCover: 'latin',
+      audioTrack: 'latin',
+      progress: 30,
+      startTime: '0:00',
+      endTime: '2:44',
+    },
+    {
+      trackTitle: 'Sikke dog en dejlig dag',
+      audioCover: 'sikke-dog-en-dejlig-dag',
+      audioTrack: 'sikke-dog-en-dejlig-dag',
+      progress: 30,
+      startTime: '0:00',
+      endTime: '3:54',
+    },
+  ]

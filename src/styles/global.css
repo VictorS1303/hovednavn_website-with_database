@@ -1,0 +1,187 @@
+@import url('https://fonts.googleapis.com/css2?family=Gabarito:wght@100;200;300;400;500;600;700;800;900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import 'tailwindcss';
+
+
+@theme
+{
+    /* Fonts */
+    --heading-font: 'Gabarito', sans-serif;
+    --paragraph-font: 'Poppins', sans-serif;
+    
+    /* COLORS */
+    
+    /* Background Colors */
+    --mobile-menu-background-color: linear-gradient(167.99deg, rgba(239, 239, 239, 0.2) 0%, rgba(239, 239, 239, 0.2) 100%);
+    --body-bg-color: #f5c068;
+    
+    /* Text Colors */
+    --primary-text-color: #fff;
+    --secondary-text-color: #f5c068;
+    --hero-headings-text-color: #fff;
+    --section-headings-text-color: #801115;
+    --scroll-to-top-btn-bg-color: #f5c068;
+    --scroll-to-top-btn-border-color: #801115;
+    --scroll-to-top-btn-hover-bg-color: #801115;
+    --scroll-to-top-btn-hover-color: #f5c068;
+    --scroll-to-top-btn-hover-border-color: #801115;
+    --page-headings-text-color: #801115;
+    --footer-text-color: #801115;
+    --page-intro-text-color: #000;
+    --record-player-bg-color: #801115;
+    --track-title-text-color: #fff;
+    --track-duration-text-color: #fff;
+    --progress-bar-inner-bg-color: #f5c068;
+    --control-btns-color: #fff;
+    --control-btns-hover-color: #f5c068;
+    --track-list-text-heading-color: #fff;
+    --track-list-text-color: #fff;
+    --track-list-text-hover-color: #f5c068;
+    --current-song-text-color: #f5c068;
+    --map-control-btns-text-color: #801115; 
+    --close-map-btn-text-color: #801115;
+    --single-view-back-btn-text-color: #801115;
+    --concert-card-cancel-overlag-bg-color: #801115;
+    --timeline-card-text: #fff;
+    --timeline-card-bg-color: #801115;
+    --paragraph-font-size: 16px;
+}
+
+body
+{
+    font-family: var(--paragraph-family, sans-serif);
+}
+
+nav ul li a
+{
+    font-family: var(--heading-font, --paragraph-font);
+}
+
+::selection
+{
+    user-select: none;
+}
+
+.paragraph-font
+{
+    font-family: var(--paragraph-font);
+}
+
+/* Text Colors */
+.hero-heading-text-color
+{
+    color: var(--hero-headings-text-color);
+}
+
+.secondary-text-color
+{
+    color: var(--secondary-text-color);
+}
+
+/* Page Headings Text Color */
+.page-headings-text-color
+{
+    color: var(--page-headings-text-color);
+}
+
+/* Background Colors */
+.page-background-color
+{
+    background-color: var(--page-background-color);
+}
+
+/* Mobile Menu Background Color */
+.mobile-menu-background-color
+{
+    background-image: var(--mobile-menu-background-color);
+    backdrop-filter: blur(var(--mobile-menu-blur));
+}
+
+header
+{
+    color: var(--primary-text-color);
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6
+{
+    font-family: var(--heading-font);
+}
+
+.page-intro-text
+{
+    color: var(--page-intro-text-color);
+}
+
+/* Fonts */
+.primary-font
+{
+    font-family: var(--font-family);
+}
+
+.paragraph-text
+{
+    font-family: var(--paragraph-font);
+}
+
+/* Record Player */
+.track-title
+{
+    color: var(--track-title-text-color);
+}
+
+.progress-bar-inner
+{
+    background-color: var(--progress-bar-inner)
+}
+
+.track-duration-color
+{
+    color: var(--track-duration-text-color);
+}
+
+.control-btn
+{
+    color: var(--control-btns-color);
+
+    &:hover
+    {
+        color: var(--control-btns-hover-color);
+    }
+}
+
+/* Modal */
+dialog
+{
+    &[open]::backdrop
+    {
+        backdrop-filter: blur(10px);
+    }
+}
+
+/* Current Song */
+.current-song
+{
+    color: var(--current-song-text-color);
+    font-weight: bolder;
+    pointer-events: none;
+}
+
+/* img
+{
+    height: 100%;
+    width: 100%;
+} */
+
+/* Vinyl */
+.spin
+{
+    animation: spin 2.5s linear infinite;
+}
+
+@keyframes spin
+{
+    to
+    {
+      transform: rotate(360deg);
+    }
+}

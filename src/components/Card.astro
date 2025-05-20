@@ -1,0 +1,77 @@
+---
+import Overlay from './Overlay.astro'
+import ConcertCardContent from './ConcertCardContent.astro'
+import ArtistCardContent from './ArtistCardContent.astro'
+import ConcertCancelOverlay from './ConcertCancelOverlay.astro'
+
+const {
+  class: className,
+  id: id,
+  src,
+  isConcertCard,
+  isConcertCancelled = false,
+  concertCancelOverlayImage,
+  concertCancelOverlayText,
+  concertDate,
+  concertLocation,
+  concertPrice,
+  isArtistCard,
+  artistName,
+  artistBandRole,
+  concertEvent,
+  concertTarget,
+} = Astro.props
+
+const showOverlay = true
+---
+
+{
+  isArtistCard ? (
+    <a href={`/about/${id}`}>
+      <article
+        class={`${className} paragraph-font relative h-[325px] w-[300px] flex justify-center`}
+        id={id}>
+        <img
+          src={src}
+          class='h-full w-full object-cover'
+          alt='artist card image'
+        />
+
+        {showOverlay && <Overlay />}
+
+        <ArtistCardContent
+          artistName={artistName}
+          artistBandRole={artistBandRole}
+        />
+      </article>
+    </a>
+  ) : isConcertCancelled ? (
+    <article
+      class={`${className} relative h-[325px] w-[300px] flex items-center justify-center`}
+      id={id}>
+      <ConcertCancelOverlay
+        concertCancelOverlayText={concertCancelOverlayText}
+        concertCancelOverlayImage={concertCancelOverlayImage}
+      />
+    </article>
+  ) : isConcertCard ? (
+    <article
+      class={`${className} relative h-[325px] w-[300px] overflow-hidden`}
+      id={id}>
+      <img
+        src={src}
+        class='h-full w-full object-cover'
+        alt='concert card image'
+      />
+      {showOverlay && <Overlay />}
+
+      <ConcertCardContent
+        concertEvent={concertEvent}
+        concertTarget={concertTarget}
+        concertDate={concertDate}
+        concertLocation={concertLocation}
+        concertPrice={concertPrice}
+      />
+    </article>
+  ) : null
+}

@@ -1,0 +1,99 @@
+---
+import Section from './Section.astro'
+import Overlay from './Overlay.astro'
+
+const {
+  class: className,
+  id: id,
+  heroHeaderText,
+  heroImageSrc,
+  heroImageAlt,
+} = Astro.props
+---
+
+<div class='relative h-full w-full overflow-hidden' id={id}>
+  <header
+    class='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] uppercase'>
+    <h1
+      class='hero-heading-text hero-heading-text-color whitespace-nowrap tracking-wider text-[44px] invisible md:text-8xl'>
+      {heroHeaderText}
+    </h1>
+  </header>
+
+  <img
+    src={heroImageSrc}
+    alt={heroImageAlt}
+    height='100%'
+    width='100%'
+    class='w-full h-screen object-cover absolute top-0 left-0'
+    loading='lazy'
+  />
+
+  <Overlay class='bg-black/100 hero-overlay' />
+</div>
+
+<script>
+  import {gsap} from 'gsap'
+  let mm = gsap.matchMedia()
+
+  function heroTitleAnimation(heroHeading, duration, delay) {
+    const heroTitle = document.querySelector(heroHeading)
+    const heroHeadingText = heroTitle.textContent.trim()
+
+    // Clear existing content and add spans
+    heroTitle.innerHTML = ''
+    heroHeadingText.split('').forEach((char) => {
+      const span = document.createElement('span')
+      span.textContent = char
+      span.style.display = 'inline-block'
+      heroTitle.append(span)
+    })
+
+    // Make visible before animating
+    heroTitle.style.visibility = 'visible'
+
+    // Animate each span
+    gsap.from(`${heroHeading} span`, {
+      transform: -50,
+      opacity: 0,
+      duration: duration,
+      ease: 'power2.out',
+      stagger: 0.05,
+      delay: delay,
+    })
+  }
+
+  function overlayAnimation(duration: number, delay: number) {
+    delay = 0.6
+
+    gsap.fromTo(
+      '.hero-overlay',
+      {
+        opacity: 1,
+      },
+      {
+        opacity: 0.5,
+        duration: duration,
+        delay: delay,
+      },
+    )
+  }
+
+  function enableScrollOnAnimationEnd(delay, duration) {
+    const totalAnimationTime = delay + duration + 0.3 // buffer
+    setTimeout(() => {
+      document.body.style.overflow = 'auto'
+      document.documentElement.style.overflow = 'auto'
+    }, totalAnimationTime * 1000)
+  }
+
+  // Initialize animation after DOM is loaded
+  document.addEventListener('DOMContentLoaded', () => {
+    const duration = 1
+    const delay = 1.4
+
+    heroTitleAnimation('.hero-heading-text', duration, delay)
+    overlayAnimation(duration, delay)
+    enableScrollOnAnimationEnd(delay, duration)
+  })
+</script>

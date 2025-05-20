@@ -1,0 +1,138 @@
+---
+import {concertCardsData} from '../js/concert_maps_data'
+const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY
+const {
+  concertDate,
+  concertLocation,
+  concertEvent,
+  concertPrice,
+  concertTarget,
+} = Astro.props
+---
+
+<div
+  class='container concert-card-content-container absolute top-0 left-0 flex flex-col justify-between px-3 py-4 z-[1000] h-full w-full text-white overflow-hidden'>
+  <div
+    class='flex flex-col justify-between container map-container absolute inset-0 z-50 h-full w-full translate-y-[100%] transition-translate duration-400 ease-in'>
+    <!-- Map Placeholder -->
+    <div
+      class='concert-map absolute h-full w-full'
+      data-coordinates='{concertCardsData.concertLocationCoordinates.lat}, {concertLocationCoordinates.lng}'>
+    </div>
+    <button
+      class='btn close-map-btn grid self-end place-content-center h-[35px] w-[35px] z-[55] text-[var(--close-map-btn-text-color)] bg-white cursor-pointer transition-text duration-150 ease-in hover:text-[var(--secondary-text-color)]'
+      id='close_map_btn'
+      aria-label='close map'>
+      <i class='fas fa-times text-2xl'></i>
+    </button>
+
+    <div
+      class='container map-control-container flex justify-around items-center z-[300] px-3 h-10 bg-white'
+      id='map_control_container'>
+      <a
+        href={concertEvent}
+        target={concertTarget}
+        class='btn show-event-btn text-[var(--map-control-btns-text-color)] text-xl cursor-pointer transition-text duration-150 ease-in hover:text-[var(--secondary-text-color)]'
+        id='show_event_btn'>Vis event</a
+      >
+    </div>
+  </div>
+
+  <h3
+    class='date text-xl text-[var(--secondary-text-color)] font-bolder'
+    id='date'>
+    {concertDate}
+  </h3>
+
+  <div
+    class='container location-and-price-container flex justify-between items-center text-base/10'>
+    <div>
+      <h2 class='location text-[25px] font-bold'>
+        {concertLocation}
+      </h2>
+      <p class='price paragraph-font text-xl font-bolder' id='price'>
+        {concertPrice} kr.
+      </p>
+    </div>
+
+    <button
+      class='btn show-location-btn flex flex-col justify-center items-center mt-4 text-base/6 cursor-pointer mr-2 group'
+      id='show_location_btn'
+      aria-label='show location'>
+      <i
+        class='fas fa-map-marker-alt text-2xl transition-text duration-150 ease-in group-hover:text-[var(--secondary-text-color)]'
+      ></i>
+      <p class='paragraph-font'>Vis lokation</p>
+    </button>
+  </div>
+</div>
+
+<script
+  src=`https://maps.googleapis.com/maps/api/js?key=AIzaSyCCQlUrqkxhAPlFlgpWnoaWfR_7YhE-P84&callback=initMap`
+  async
+  defer></script>
+
+<script>
+  import {concertCardsData} from '../js/concert_maps_data.js'
+
+  const showLocationBtns = document.querySelectorAll('.show-location-btn')
+  const closeLocationBtns = document.querySelectorAll('.close-map-btn')
+  const concertMap = document.querySelector('.concert-map')
+
+  window.addEventListener('DOMContentLoaded', initMap)
+
+  showLocationBtns.forEach((showLocationBtn) => {
+    showLocationBtn.addEventListener('click', (e) => showLocation(e))
+  })
+
+  closeLocationBtns.forEach((closeLocationBtn) => {
+    closeLocationBtn.addEventListener('click', (e) => closeLocation(e))
+  })
+
+  function showLocation(e: any) {
+    const container = e.target.closest('.concert-card-content-container')
+    const mapContainer = container?.querySelector('.map-container')
+
+    if (mapContainer) {
+      mapContainer.classList.remove('translate-y-[100%]')
+      mapContainer.classList.add('-translate-y-[0]')
+    }
+  }
+
+  function closeLocation(e) {
+    const container = e.target.closest('.concert-card-content-container')
+    const mapContainer = container?.querySelector('.map-container')
+
+    if (mapContainer) {
+      mapContainer.classList.add('translate-y-[100%]')
+      mapContainer.classList.remove('-translate-y-[0]')
+    }
+  }
+
+  // Initialize Concert Maps
+  function initMap() {
+    const concertMaps = document.querySelectorAll('.concert-map')
+
+    concertMaps.forEach((mapContainer, index) => {
+      const concertPosition = concertCardsData[index].concertLocationCoordinates
+      const options = {
+        zoom: 15,
+        center: concertPosition,
+        pointerEvents: false,
+        draggable: false,
+        disableDefaultUI: true,
+        mapTypeId: 'roadmap',
+      }
+
+      const map = new google.maps.Map(mapContainer, options)
+
+      // Add a marker to the current map
+      new google.maps.Marker({
+        position: concertPosition,
+        draggable: false,
+        map: map,
+        icon: '/images/map_marker/map_marker.webp',
+      })
+    })
+  }
+</script>

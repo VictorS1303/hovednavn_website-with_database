@@ -1,0 +1,32 @@
+---
+// TrackData.astro
+const {class: className, id, title, startTime, endTime} = Astro.props
+---
+
+<div
+  class=`${className} container track-data-container-and-controls-container`
+  id={id}>
+  <div
+    class='container track-data-container w-[200px] whitespace-nowrap'
+    id='track_data_container'>
+    <h3 class='track-title text-xl text-center' id='track_title'>
+      {title}
+    </h3>
+
+    <div class='overflow-hidden w-full bg-white rounded-full h-2.5 mt-4'>
+      <div
+        class='bg-[var(--progress-bar-inner-bg-color)] h-2.5 rounded-full'
+        id='progress_bar'>
+      </div>
+    </div>
+
+    <div
+      class='container length-info-container flex justify-between mt-2'
+      id='length_info_container'>
+      <h4 class='start-time track-duration-color' id='start_time'>
+        {startTime}
+      </h4>
+      <h4 class='full-time track-duration-color' id='end_time'>{endTime}</h4>
+    </div>
+  </div>
+</div>
