@@ -1,40 +1,44 @@
 ---
+import { fetchArtistsData } from '../js/supabase'
+
 import Card from './Card.astro'
 import SectionHeader from './SectionHeader.astro'
 const {class: className, id: id, showOverlay} = Astro.props
 
-const artistCardsData = [
-  {
-    artistName: 'Samuel Himmelstrup',
-    artistImage: 'samuel_himmelstrup',
-    artistBandRole: 'Sanger',
-    id: 1,
-  },
-  {
-    artistName: 'Mikkel Deleuran',
-    artistImage: 'mikkel_deleuran',
-    artistBandRole: 'Bassist',
-    id: 2,
-  },
-  {
-    artistName: 'Julian Falck',
-    artistImage: 'julian_falck',
-    artistBandRole: 'Trommeslager',
-    id: 3,
-  },
-  {
-    artistName: 'Lasse',
-    artistImage: 'lasse',
-    artistBandRole: 'Organist',
-    id: 4,
-  },
-  {
-    artistName: 'Anders',
-    artistImage: 'anders',
-    artistBandRole: 'Guitarist',
-    id: 5,
-  },
-]
+// const artistCardsData = [
+//   {
+//     artistName: 'Samuel Himmelstrup',
+//     artistImage: 'samuel_himmelstrup',
+//     artistBandRole: 'Sanger',
+//     id: 1,
+//   },
+//   {
+//     artistName: 'Mikkel Deleuran',
+//     artistImage: 'mikkel_deleuran',
+//     artistBandRole: 'Bassist',
+//     id: 2,
+//   },
+//   {
+//     artistName: 'Julian Falck',
+//     artistImage: 'julian_falck',
+//     artistBandRole: 'Trommeslager',
+//     id: 3,
+//   },
+//   {
+//     artistName: 'Lasse',
+//     artistImage: 'lasse',
+//     artistBandRole: 'Organist',
+//     id: 4,
+//   },
+//   {
+//     artistName: 'Anders',
+//     artistImage: 'anders',
+//     artistBandRole: 'Guitarist',
+//     id: 5,
+//   },
+// ]
+
+const artistData = await fetchArtistsData()
 ---
 
 <div class="flex flex-col mt-16">
@@ -43,16 +47,16 @@ const artistCardsData = [
     class='concert-cards-container flex flex-wrap justify-center'
     id='artist_cards_container'>
     {
-      artistCardsData.map((artistCard, index) => (
+      artistData.map((artistCard, index) => (
         <a href={`/about/${artistCard.id}`}>
           <Card
             class="artist-card m-4"
             id={artistCard.id} // Uses artistCard.id, not index
-            src={`/images/about/about_cards/${artistCard.artistImage}.webp`}
+            src={`/images/about/about_cards/${artistCard.artist_image}.webp`}
             isArtistCard={true}
             showOverlay={showOverlay}
-            artistName={artistCard.artistName}
-            artistBandRole={artistCard.artistBandRole}
+            artistName={artistCard.artist_card_title}
+            artistBandRole={artistCard.artist_band_role}
           />
         </a>
       ))

@@ -1,7 +1,8 @@
 ---
-const {class: className, id: id, ticketPurchaseInfoText} = Astro.props
+const {class: className, ticketPurchaseInfoText} = Astro.props
 ---
 
-<p class=`${className} mx-4 mt-4 paragraph-text text-xl font-semibold text-center whitespace-nowrap lg:text-left md:mt-0`>
+<p
+  class={`${className} mx-4 mt-4 paragraph-text text-xl font-semibold text-center whitespace-nowrap lg:text-left md:mt-0`}>
   {ticketPurchaseInfoText}
 </p>

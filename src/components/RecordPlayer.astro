@@ -1,9 +1,7 @@
 ---
-// RecordPlayer.astro
-
-import {trackData} from '../js/trackData.js'
-console.log(trackData)
 const {class: className, id: id} = Astro.props
+import {fetchMusicData} from '../js/supabase.js'
+const musicData = await fetchMusicData()
 ---
 
 <div
@@ -35,8 +33,7 @@ const {class: className, id: id} = Astro.props
       <div
         class='track-data-container w-[200px] whitespace-nowrap'
         id='track_data_container'>
-        <h3 class='track-title text-xl text-center' id='track_title'>
-        </h3>
+        <h3 class='track-title text-xl text-center' id='track_title'></h3>
 
         <div class='overflow-hidden w-full bg-white rounded-full h-2.5 mt-4'>
           <div
@@ -97,13 +94,30 @@ const {class: className, id: id} = Astro.props
     <ul
       class='paragraph-font track-list flex flex-col px-6 h-[150px] overflow-y-scroll md:h-[200px]'>
       {
+        musicData.map((trackInfo) => (
+          <li class='py-2 m-0 flex justify-between items-center text-md text-white hover:text-[var(--track-list-text-hover-color)] cursor-pointer border-b border-white last:border-b-0 transition duration-150 ease-in md:py-4'>
+            <span class='track-name'>{trackInfo.track_title}</span>
+            <span class='track-duration'>{trackInfo.track_end_time}</span>
+          </li>
+        ))
+      }
+
+      <!-- {
         trackData.map((trackInfo) => (
           <li class='py-2 m-0 flex justify-between items-center text-md text-white hover:text-[var(--track-list-text-hover-color)] cursor-pointer border-b border-white last:border-b-0 transition duration-150 ease-in md:py-4'>
             <span class='track-name'>{trackInfo.trackTitle}</span>
             <span class='track-duration'>{trackInfo.endTime}</span>
           </li>
         ))
-      }
+      } -->
+      <!-- {
+        trackData.map((trackInfo) => (
+          <li class='py-2 m-0 flex justify-between items-center text-md text-white hover:text-[var(--track-list-text-hover-color)] cursor-pointer border-b border-white last:border-b-0 transition duration-150 ease-in md:py-4'>
+            <span class='track-name'>{trackInfo.trackTitle}</span>
+            <span class='track-duration'>{trackInfo.endTime}</span>
+          </li>
+        ))
+      } -->
     </ul>
   </div>
 </div>

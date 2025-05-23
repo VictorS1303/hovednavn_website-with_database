@@ -39,29 +39,3 @@ const {
 
   /* Initial state of the paragraph (hidden) */
 </style>
-
-<script>
-  import {gsap} from 'gsap'
-  import ScrollTrigger from 'gsap/ScrollTrigger'
-
-  gsap.registerPlugin(ScrollTrigger)
-
-  document.addEventListener('DOMContentLoaded', () => {
-    // Select all details elements
-    const detailsElements = document.querySelectorAll('details')
-
-    // Add event listeners to each details element
-    detailsElements.forEach((details) => {
-      details.addEventListener('toggle', () => {
-        // If the current details element is open, close all others
-        if (details.open) {
-          detailsElements.forEach((detailElement) => {
-            if (detailElement !== details && detailElement.open) {
-              detailElement.open = false
-            }
-          })
-        }
-      })
-    })
-  })
-</script>

@@ -1,4 +1,6 @@
 ---
+import {fetchArtistsData} from '../js/supabase.js'
+
 import Layout from '../layouts/Layout.astro'
 import ScrollToTopBtn from '../components/ScrollToTopBtn.astro'
 import Main from '../components/Main.astro'
@@ -28,6 +30,9 @@ const navItems = [
     text: 'Koncerter',
   },
 ]
+
+const artistData = await fetchArtistsData()
+console.log(artistData)
 ---
 
 <Layout title='Om' navItems={navItems}>
@@ -41,6 +46,7 @@ const navItems = [
       loading='lazy'
     />
   </Section>
+  <!-- /images/about/hero/about_hero_bg.webp -->
   <Main>
     <SectionHeader class='-mb-12' sectionHeaderText='Velkommen til Hovednavn' />
 

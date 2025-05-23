@@ -1,29 +1,23 @@
 ---
 import SingleViewLayout from '../../layouts/SingleViewLayout.astro'
-import {singleViewData} from '../../js/single_view_data'
-
-const {id} = Astro.params
+import {fetchArtistsData} from '../../js/supabase.js'
 
 export async function getStaticPaths() {
-  const paths = singleViewData.map((item) => ({
-    params: {id: item.id.toString()}, // Ensure `id` is a string
+  const artists = await fetchArtistsData()
+
+  return artists.map((artist) => ({
+    params: {id: artist.id},
+    props: {artist},
   }))
-  return {paths}
 }
-
-// Ensure the ID is matched and the correct data is retrieved
-const data = singleViewData.find((item) => item.id.toString() === id)
-
-if (!data) {
-  throw new Error(`Data for ID ${id} not found.`)
-}
+const {artist} = Astro.props
+console.log(artist)
 ---
 
 <SingleViewLayout
-  title={data.title}
-  name={data.name}
-  image={data.image}
-  age=`${data.age} år`
-  about={data.about}
-  :view-transition
+  title={artist.artist_name}
+  name={artist.artist_name}
+  image=`/images/about/about_cards/${artist.artist_image}.webp`
+  age={artist.artist_age}
+  about={artist.artist_info}
 />

@@ -1,5 +1,4 @@
 ---
-import {concertCardsData} from '../js/concert_maps_data'
 const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY
 const {
   concertDate,
@@ -73,8 +72,8 @@ const {
   defer></script>
 
 <script>
-  import {concertCardsData} from '../js/concert_maps_data.js'
-
+  import {fetchConcertData} from '../js/supabase.js'
+  const concertData = await fetchConcertData()
   const showLocationBtns = document.querySelectorAll('.show-location-btn')
   const closeLocationBtns = document.querySelectorAll('.close-map-btn')
   const concertMap = document.querySelector('.concert-map')
@@ -114,7 +113,7 @@ const {
     const concertMaps = document.querySelectorAll('.concert-map')
 
     concertMaps.forEach((mapContainer, index) => {
-      const concertPosition = concertCardsData[index].concertLocationCoordinates
+      const concertPosition = concertData[index].concertLocationCoordinates
       const options = {
         zoom: 15,
         center: concertPosition,

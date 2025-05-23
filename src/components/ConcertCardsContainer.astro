@@ -1,33 +1,35 @@
 ---
+import {fetchConcertData} from '../js/supabase.js'
+
 const {showOverlay} = Astro.props
-import {concertCardsData} from '../js/concert_maps_data.js'
 import Card from './Card.astro'
 import TicketPurchaseInfo from './TicketPurchaseInfo.astro'
+
+const concertData = await fetchConcertData()
 ---
 
 <div class='mx-12'>
   <div class='concert-cards-container flex flex-wrap justify-center'>
     {
-      concertCardsData.map((concertCard) => (
+      concertData.map((concertCard) => (
         <Card
           class='m-4'
-          src={`/images/concert/concert_cards/${concertCard.concertImage}.webp`}
+          src={`/images/concert/concert_cards/${concertCard.concert_image}.webp`}
           isConcertCard={true}
           showOverlay={showOverlay}
-          concertDate={concertCard.concertDate}
-          concertLocation={concertCard.concertLocation}
-          concertPrice={concertCard.concertPrice}
-          concertTarget={concertCard.concertTarget}
-          concertEvent={concertCard.concertEvent}
-          concertLocationCoordinates={concertCard.concertLocationCoordinates}
-          concertCancelOverlayImage={concertCard.concertCancelOverlayImage}
-          concertCancelOverlayText={concertCard.concertCancelOverlayText}
-          isConcertCancelled={concertCard.isConcertCancelled}
+          concertDate={concertCard.concert_date}
+          concertLocation={concertCard.concert_location}
+          concertPrice={concertCard.concert_price}
+          concertEvent={concertCard.concert_event}
+          concertCancelOverlayImage={
+            concertCard.concert_cancelled_overlay_image
+          }
+          concertCancelOverlayText={concertCard.concert_cancel_overlay_text}
+          concertTarget='_blank'
+          isConcertCancelled={concertCard.is_concert_cancelled}
         />
       ))
     }
   </div>
-  <TicketPurchaseInfo
-    ticketPurchaseInfoText='Billet til koncerterne købes i døren'
-  />
+  <TicketPurchaseInfo ticketPurchaseInfoText='Billetter kan købes i døren' />
 </div>

@@ -1,4 +1,5 @@
 ---
+import {data} from '../js/supabase.js'
 import Logo from '../components/Logo.astro'
 const {class: className, id: id, navItems = []} = Astro.props
 const activePage = new URL(Astro.request.url).pathname
