@@ -107,6 +107,9 @@ const musicData = await fetchMusicData()
 
 <script>
   import {trackData} from '../js/trackData.js'
+  import {fetchSong} from '../js/supabase.js'
+  const currentSongId = 1
+  const song = await fetchSong()
 
   document.addEventListener('DOMContentLoaded', () => {
     const trackCoverImage = document.querySelector('#cover_image')
@@ -126,15 +129,15 @@ const musicData = await fetchMusicData()
 
     const audio = new Audio()
 
+    let songIndex = 1
+    let timeUpdateInterval
+
     controlBtnsContainer?.addEventListener('click', (e) => controlAudio(e))
     audio.addEventListener('timeupdate', updateProgressBar)
     mobileTrackListToggleBtn?.addEventListener('click', toggleMobileTrackList)
 
     // Initially setting the width of the progress bar to 0
     progressBar.style.width = '0%'
-
-    let songIndex = 0
-    let timeUpdateInterval
 
     loadSong(trackData[songIndex], false)
 
@@ -162,6 +165,7 @@ const musicData = await fetchMusicData()
     function controlAudio(e) {
       if (e.target.closest('.previous-song-btn')) {
         playPreviousSong()
+        console.log('Hey')
       } else if (e.target.closest('.play-pause-song-btn')) {
         toggleAudioPlayState()
         updateStartTime()
@@ -185,15 +189,31 @@ const musicData = await fetchMusicData()
           playPauseSongBtn?.classList.add('fa-pause'))
     }
 
-    function playPreviousSong() {
-      songIndex--
-      if (songIndex < 0) {
-        songIndex = trackData.length - 1
+    async function playPreviousSong() {
+      try {
+        // Decrement the ID
+        const previousSongId = currentSongId - 1
+
+        // Fetch the previous song from Supabase
+        const previousSong = await fetchSong(previousSongId)
+        console.log(previousSongId, previousSong)
+
+        if (!previousSong) {
+          console.warn('No previous song found. Possibly first song.')
+          return // Or wrap around to last song if you want
+        }
+
+        currentSongId = previousSongId // Update the current song ID
+
+        // Load the song into the player UI
+        loadSong(previousSong)
+
+        audio.play()
+        trackCoverImage?.classList.add('spin')
+        updatePlayPauseIconState()
+      } catch (error) {
+        console.error('Error playing previous song:', error)
       }
-      loadSong(trackData[songIndex])
-      audio.play()
-      trackCoverImage?.classList.add('spin')
-      updatePlayPauseIconState()
     }
 
     function playNextSong() {

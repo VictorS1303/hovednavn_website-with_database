@@ -32,16 +32,29 @@ export async function fetchArtistsData() {
 fetchArtistsData()
 
 // Music Data
-export const fetchMusicData = async () =>
+export const fetchMusicData = async (id) => {
+    const { data, error } = await supabase
+        .from('music')
+        .select('*')
+
+    return data;
+};
+fetchMusicData()
+
+export const fetchSong = async (id, currentSongId) =>
 {
-    const {data, error} = await supabase
-     .from('music')
-     .select('*')
-     .order('id', {ascending: true})
-    return data || []
+  const {data, error} = await supabase
+  .from('music')
+  .update({id: currentSongId})
+  .eq('id', id)
+
+  console.log(data)
+  
+  return data || []
 }
 
-fetchMusicData()
+fetchSong()
+
 
 
 
