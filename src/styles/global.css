@@ -46,9 +46,14 @@
     --paragraph-font-size: 16px;
 }
 
+html
+{
+}
+
 body
 {
     font-family: var(--paragraph-family, sans-serif);
+    scrollbar-width: 0;
 }
 
 nav ul li a
@@ -185,3 +190,4 @@ dialog
       transform: rotate(360deg);
     }
 }
+

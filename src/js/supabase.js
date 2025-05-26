@@ -36,26 +36,25 @@ export const fetchMusicData = async (id) => {
     const { data, error } = await supabase
         .from('music')
         .select('*')
+        .order('id', {ascending: true})
 
     return data;
 };
 fetchMusicData()
 
-export const fetchSong = async (id, currentSongId) =>
-{
-  const {data, error} = await supabase
-  .from('music')
-  .update({id: currentSongId})
-  .eq('id', id)
 
-  console.log(data)
-  
-  return data || []
-}
+export const fetchSong = async (id) => {
+  // try {
+    const { data, error } = await supabase
+      .from('music')
+      .select('*')
+      .eq('id', id) // Filter for the specific ID
+      .order('id', {ascending: true})
+    
+    return data[0]
+};
 
-fetchSong()
-
-
+fetchSong(0)
 
 
 // Concert Data
