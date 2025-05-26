@@ -1,7 +1,7 @@
 ---
 import Logo from '../components/Logo.astro'
 const {class: className, id: id, navItems = []} = Astro.props
-const activePage = new URL(Astro.request.url).pathname
+const activePage = new URL(Astro.request.url).pathname.replace(/\/$/, '')
 const isHome = activePage === '/'
 const isSingleView = activePage.startsWith('/about/') && activePage !== '/about'
 ---
