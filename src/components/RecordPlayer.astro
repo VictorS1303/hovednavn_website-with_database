@@ -259,7 +259,7 @@ const musicData = await fetchMusicData()
 
           // Update the current song ID and play the new track
           currentSongId = selectedIndex + 1
-          loadSong(selectedTrack) // Use the data fetched from the database
+          loadSong(selectedTrack)
           audio.play()
           rotateMobileTrackListIcon()
           updatePlayPauseIconState()

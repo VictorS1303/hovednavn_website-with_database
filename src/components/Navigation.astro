@@ -1,10 +1,9 @@
 ---
-import {data} from '../js/supabase.js'
 import Logo from '../components/Logo.astro'
 const {class: className, id: id, navItems = []} = Astro.props
 const activePage = new URL(Astro.request.url).pathname
 const isHome = activePage === '/'
-const isSingleView = activePage.startsWith('/about/')
+const isSingleView = activePage.startsWith('/about/') && activePage !== '/about'
 ---
 
 {/* Mobile menu toggle button should be hidden only in single view */}
